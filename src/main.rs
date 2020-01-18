@@ -2,8 +2,8 @@ use clap::{App, Arg};
 use glob::glob;
 
 mod classify;
-mod io;
 use classify::{ classify };
+mod io;
 use io::{read_file, write_file};
 
 pub fn traverse(paths: glob::Paths, out_path: Option<&str>) {
