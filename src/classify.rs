@@ -8,8 +8,8 @@ pub fn classify(file_contents: &str) -> String {
             classified_line = generate_class_for_interface(line);
         } else if line.contains("export declare type") && !line.contains("|") {
             classified_line = generate_class_for_type(line);
-        } else if line.contains("|") {
-            continue;
+        } else if line == "};" {
+            classified_line = "}".to_string();
         }
         write!(classified_contents, "{}\n", classified_line).expect("Error writing to string.");
     }
