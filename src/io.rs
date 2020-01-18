@@ -14,7 +14,7 @@ pub fn write_file(out_dir: &str, original_path: &Path, file: &str) -> io::Result
     path.push(filename);
     fs::create_dir_all(out_dir)?;
     fs::write(&path, file)?;
-    Ok(path.as_os_str().to_str().unwrap().to_string())
+    Ok(path.into_os_string().into_string().unwrap())
 }
 
 fn create_file_name(current_filename: &str) -> String {
