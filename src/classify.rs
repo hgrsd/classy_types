@@ -22,16 +22,15 @@ fn generate_class_for_type(definition: &str) -> String {
         .nth(3)
         .expect("Invalid type declaration detected.");
     if definition.contains("&") {
-        let union_type = definition
-            .split("&")
-            .nth(0)
-            .expect("Invalid union type declaration detected.")
-            .trim()
-            .split_whitespace()
-            .rev()
-            .nth(0)
-            .unwrap();
-        return format!("export class {} extends {} {{", type_name, union_type);
+        let mut token_iter = definition.split_whitespace().peekable();
+        while let Some(cur) = token_iter.next() {
+            let next = token_iter.peek();
+            if let Some(next_value) = next {
+                if *next_value == "&" {
+                    return format!("export class {} extends {} {{", type_name, cur);
+                }
+            }
+        }
     }
     format!("export class {} {{", type_name)
 }
