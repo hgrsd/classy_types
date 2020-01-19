@@ -1,13 +1,13 @@
 pub fn classify(file_contents: &str) -> String {
     file_contents.lines().fold(String::new(), |acc, cur| {
         if cur.contains("export interface") {
-            return acc + format!("{}\n", &generate_class_for_interface(cur)).as_str();
+            return format!("{}{}\n", acc, generate_class_for_interface(cur));
         } else if cur.contains("export declare type") && !cur.contains("|") {
-            return acc + format!("{}\n", &generate_class_for_type(cur)).as_str();
+            return format!("{}{}\n", acc, generate_class_for_type(cur));
         } else if cur == "};" {
-            return acc + "}\n";
+            return format!("{}}}\n", acc);
         }
-        acc + format!("{}\n", cur).as_str()
+        format!("{}{}\n", acc, cur)
     })
 }
 
